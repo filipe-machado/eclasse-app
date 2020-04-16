@@ -1,0 +1,21 @@
+@media screen and (min-width: 320px) {
+  * {
+    font-family: 'roboto thin';
+  }
+  .container {
+    display: flex;
+    max-width: 95vw;
+    flex-direction: column;
+  }
+
+  .align-content-center {
+    align-content: center;
+    inline-size: min-content;
+    margin: 0 auto;
+  }
+
+  .align-items-center {
+    align-items: center;
+    margin: 0 auto;
+  }
+}
