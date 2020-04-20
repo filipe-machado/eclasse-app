@@ -1,0 +1,12 @@
+.uk-navbar {
+  height: 14vh;
+
+  &-container {
+    background: linear-gradient(to right, $color-primary, $color-minus-25) !important;
+
+    .uk-navbar-nav {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}

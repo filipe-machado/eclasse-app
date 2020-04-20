@@ -3,12 +3,15 @@ import { API } from '../../api';
 
 export default function Instituicao() {
   const [instituicao, setinstituicao] = useState({});
+  const token = useSelector((store) => store);
+
   useEffect(() => {
     function getInstituicoes() {
       const instituicoes = window.location.pathname;
-      API.get(instituicoes).then((result) => {
-        setinstituicao({ ...result.data[0] });
-      });
+      API.get(instituicoes, token.token !== null && { headers: { Authorization: `Bearer ${token.token}` } }))
+        .then((result) => {
+          setinstituicao({ ...result.data[0] });
+        });
     }
     getInstituicoes();
   }, []);

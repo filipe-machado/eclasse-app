@@ -1,0 +1,13 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "eclasse_bd",
+            "dialect": "MySQL",
+            "name": "eclasse",
+            "password": "guitar24",
+            "port": 3306,
+            "server": "localhost",
+            "username": "root"
+        }
+    ]
+}

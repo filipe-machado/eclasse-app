@@ -1,4 +1,5 @@
 import React from 'react';
+import 'uikit/dist/css/uikit.min.css';
 import './styles/index.scss';
 import Router from './routes';
 

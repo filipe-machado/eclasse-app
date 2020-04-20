@@ -3,12 +3,12 @@ import {
   BrowserRouter,
   Switch,
   Route,
-  Redirect,
 } from 'react-router-dom';
 
 // Pages
 import Login from '../pages/login';
 import Register from '../pages/register';
+import Home from '../pages';
 
 export default function routes() {
   return (
@@ -23,7 +23,7 @@ export default function routes() {
         </Route>
 
         <Route path="/" exact>
-          <Redirect to="/" />
+          <Home />
         </Route>
       </Switch>
     </BrowserRouter>

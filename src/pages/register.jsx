@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Input } from '../components/Input';
 import API from '../api';
@@ -13,6 +13,12 @@ function signInAction(token, isLogged, user) {
 const Register = () => {
   const [user, setuser] = useState({});
 
+  const token = useSelector((store) => store);
+
+  console.log(token);
+
+  // TODO: ao tentar o login e nao tiver conta, carregar os dados aqui
+  // eslint-disable-next-line no-unused-vars
   const logged = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -40,7 +46,7 @@ const Register = () => {
         <form onSubmit={signIn} method="post">
           <Input label="email" modifier="email" hadleChange={getValue} />
           <Input label="senha" modifier="senha" type="password" hadleChange={getValue} />
-          <Input label="repita senha" modifier="senha" type="password" hadleChange={getValue} />
+          <Input label="repita senha" modifier="senha-rpt" type="password" hadleChange={getValue} />
           <button className="btn-primary submit" type="submit">
             Registrar
             <i className="icon icon-right">&#xe800;</i>
@@ -49,12 +55,12 @@ const Register = () => {
         <p className="account-details">Já tem uma conta?</p>
         <div className="btn-unform">
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <i className="icon icon-left-open">&#xe802;</i>
           <Link to="/login">ENTRAR</Link>
-          <i className="icon icon-right-open">&#xe801;</i>
         </div>
       </div>
     </>
   );
 };
 
-export default connect((state) => ({ modules: state }))(Register);
+export default Register;

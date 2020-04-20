@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { Provider } from 'react-redux';
-import { PropTypes } from 'prop-types';
-import { store } from '../../store/ducks/auth';
+import { Provider, useSelector } from 'react-redux';
+import { createStore } from 'redux';
+import login from '../../routes';
+import API from '../../api';
 
-export default function Usuario({ token }) {
+export default function Usuario() {
   const [usuario, setusuario] = useState({});
+  const token = useSelector((state) => state);
+  console.log(token);
   useEffect(() => {
-    console.log(token);
     function getUsusarios() {
-      /* const user = window.location.pathname;
-      API.get(user).then((result) => {
+      const user = window.location.pathname;
+      API.get(user, { headers: { Authorization: `Bearer ${token.token}` } }).then((result) => {
+        console.log(result);
         setusuario({ ...result.data[0] });
-      }); */
+      });
     }
     getUsusarios();
   }, []);
+
+  const store = createStore(login);
 
   return (
     <>
@@ -31,7 +36,3 @@ export default function Usuario({ token }) {
     </>
   );
 }
-
-Usuario.propTypes = {
-  token: PropTypes.string.isRequired,
-};

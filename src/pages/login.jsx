@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import { Input } from '../components/Input';
 import API from '../api';
+import 'react-toastify/dist/ReactToastify.css';
 
-function signInAction(token, isLogged, user) {
-  return {
-    type: 'auth/LOGIN', token, isLogged, user,
-  };
-}
+const signInAction = (token, isLogged, user) => ({
+  type: 'auth/LOGIN', token, isLogged, user,
+});
 
 const Login = () => {
-  const [user, setuser] = useState({});
-
-  const logged = useSelector((state) => state);
+  const [user, setuser] = useState();
   const dispatch = useDispatch();
+  const token = useSelector((store) => store);
 
   function getValue(e) {
     setuser({
@@ -25,16 +24,25 @@ const Login = () => {
 
   function signIn(e) {
     e.preventDefault();
-    API.post('login', user).then((result) => {
-      console.log(result);
-      if (result.status === 200) {
-        dispatch(signInAction(result.data.token, true, user));
-      }
-    });
+    API.post('login', user)
+      .then((result) => {
+        if (result.status === 200) {
+          toast.success('Logado com sucesso!');
+          setTimeout(() => {
+            dispatch(signInAction(result.data.token, true, { email: user.email }));
+          }, 2000);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error('Verifique senha ou login!');
+      });
   }
 
   return (
     <>
+      <ToastContainer autoClose={1800} />
+      { token.isLogged && <Redirect to="/" />}
       <div className="container align-content-center form-login">
         <h1 className="usuarios">Login</h1>
         <form onSubmit={signIn} method="post">
@@ -56,4 +64,4 @@ const Login = () => {
   );
 };
 
-export default connect((state) => ({ modules: state }))(Login);
+export default Login;

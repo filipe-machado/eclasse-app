@@ -1,4 +1,8 @@
 @import './helpers/variables';
-@import './components/Form';
 @import './helpers/typografy';
 @import './helpers/globals';
+
+@import './components/Form';
+@import './components/NavBar';
+
+@import './pages/Home';

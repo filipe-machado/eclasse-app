@@ -8,6 +8,10 @@
     flex-direction: column;
   }
 
+  .uk-container {
+    height: 86vh;
+  }
+
   .align-content-center {
     align-content: center;
     inline-size: min-content;
@@ -17,5 +21,9 @@
   .align-items-center {
     align-items: center;
     margin: 0 auto;
+  }
+
+  .uk-card-default {
+    background: transparentize(#fff, .8);
   }
 }
