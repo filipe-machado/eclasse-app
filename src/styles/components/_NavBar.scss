@@ -2,7 +2,11 @@
   height: 14vh;
 
   &-container {
-    background: linear-gradient(to right, $color-primary, $color-minus-25) !important;
+    background-color: transparent !important;
+
+    .uk-icon {
+      fill: #fff;
+    }
 
     .uk-navbar-nav {
       flex-direction: column;

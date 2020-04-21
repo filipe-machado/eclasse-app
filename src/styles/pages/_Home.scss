@@ -1,18 +1,28 @@
 @media screen and (min-width: 320px) {
   body {
-    background: url('../../assets/images/background/1.svg'), url('../../assets/images/background/2.svg');
-    background-size: 80vh;
-    background-position: -50vw 20vh, 55vw 0vh;
+    background: url('../../assets/images/meteor.svg'),
+      url('../../assets/images/planet-ring.svg'),
+      url('../../assets/images/planet.svg'),
+      url('../../assets/images/orange-planet.svg'),
+      url('../../assets/images/background/background.svg');
+    background-color: $sky;
+    background-size: 30vh, 40vh, 40vh, 70vh, 55vh;
+    background-position: 25vw 110vh, 20vw 60vh, 5vw 145vh, 25vw 190vh, 0vw 15vh;
     background-repeat: no-repeat;
 
     .home {
       display: grid;
-      margin-top: 20vh;
+      margin-top: 25vh;
       width: 80vw;
+      height: 61vh;
 
       .uk-first-column {
         font-family: 'goturegular';
         font-weight: bolder;
+      }
+
+      h1, h2, h3, h4, h5, h6, p, .uk-card-default .uk-card-title {
+        color: #fff;
       }
 
       p {
@@ -27,7 +37,8 @@
   body {
     .home {
       display: grid;
-      margin-top: 40vh;
+      margin-top: 35vh;
+      height: 51vh;
     }
   }
 }
