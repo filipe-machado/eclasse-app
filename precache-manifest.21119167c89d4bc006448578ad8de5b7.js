@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "180fccf0eba872bc03c2297b4c7474f5",
+    "revision": "84614dc2bf0c74b694d1909bb59ee764",
     "url": "/eclasse-app/index.html"
   },
   {
-    "revision": "514bcd801508fe69a71f",
+    "revision": "8df79881fe2b30fca825",
     "url": "/eclasse-app/static/css/2.1d6b6865.chunk.css"
   },
   {
-    "revision": "402902c47119f7a00f17",
+    "revision": "b917a5ef06715fbc3cb1",
     "url": "/eclasse-app/static/css/main.d95c6a19.chunk.css"
   },
   {
-    "revision": "514bcd801508fe69a71f",
-    "url": "/eclasse-app/static/js/2.56d161bb.chunk.js"
+    "revision": "8df79881fe2b30fca825",
+    "url": "/eclasse-app/static/js/2.19243eee.chunk.js"
   },
   {
     "revision": "1004fcaf6e26de7ec358844876e9298f",
-    "url": "/eclasse-app/static/js/2.56d161bb.chunk.js.LICENSE.txt"
+    "url": "/eclasse-app/static/js/2.19243eee.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "402902c47119f7a00f17",
-    "url": "/eclasse-app/static/js/main.e010a1b9.chunk.js"
+    "revision": "b917a5ef06715fbc3cb1",
+    "url": "/eclasse-app/static/js/main.e9e7c0ff.chunk.js"
   },
   {
     "revision": "ad66196485c14ce0066e",
