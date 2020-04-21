@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f3f69fb70c859e84b6ea550fdf7874ff",
+    "revision": "2184fb07cabef7951c992782064efa0a",
     "url": "/eclasse-app/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/eclasse-app/static/css/2.1d6b6865.chunk.css"
   },
   {
-    "revision": "afa9fc0d6051ef5e124d",
+    "revision": "eac611d46bc1e19a85cd",
     "url": "/eclasse-app/static/css/main.d95c6a19.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/eclasse-app/static/js/2.56d161bb.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "afa9fc0d6051ef5e124d",
-    "url": "/eclasse-app/static/js/main.43f39c29.chunk.js"
+    "revision": "eac611d46bc1e19a85cd",
+    "url": "/eclasse-app/static/js/main.e21d3e98.chunk.js"
   },
   {
     "revision": "ad66196485c14ce0066e",
