@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/eclasse-app/static/css/main.d95c6a19.chunk.css",
-    "main.js": "/eclasse-app/static/js/main.e21d3e98.chunk.js",
-    "main.js.map": "/eclasse-app/static/js/main.e21d3e98.chunk.js.map",
+    "main.js": "/eclasse-app/static/js/main.e010a1b9.chunk.js",
+    "main.js.map": "/eclasse-app/static/js/main.e010a1b9.chunk.js.map",
     "runtime-main.js": "/eclasse-app/static/js/runtime-main.1435e787.js",
     "runtime-main.js.map": "/eclasse-app/static/js/runtime-main.1435e787.js.map",
     "static/css/2.1d6b6865.chunk.css": "/eclasse-app/static/css/2.1d6b6865.chunk.css",
     "static/js/2.56d161bb.chunk.js": "/eclasse-app/static/js/2.56d161bb.chunk.js",
     "static/js/2.56d161bb.chunk.js.map": "/eclasse-app/static/js/2.56d161bb.chunk.js.map",
     "index.html": "/eclasse-app/index.html",
-    "precache-manifest.2edc225106b2d93e20513ee8cf64ada1.js": "/eclasse-app/precache-manifest.2edc225106b2d93e20513ee8cf64ada1.js",
+    "precache-manifest.4dae7764815f0be16bc2acee0d82542b.js": "/eclasse-app/precache-manifest.4dae7764815f0be16bc2acee0d82542b.js",
     "service-worker.js": "/eclasse-app/service-worker.js",
     "static/css/2.1d6b6865.chunk.css.map": "/eclasse-app/static/css/2.1d6b6865.chunk.css.map",
     "static/css/main.d95c6a19.chunk.css.map": "/eclasse-app/static/css/main.d95c6a19.chunk.css.map",
@@ -21,6 +21,6 @@
     "static/css/2.1d6b6865.chunk.css",
     "static/js/2.56d161bb.chunk.js",
     "static/css/main.d95c6a19.chunk.css",
-    "static/js/main.e21d3e98.chunk.js"
+    "static/js/main.e010a1b9.chunk.js"
   ]
 }
