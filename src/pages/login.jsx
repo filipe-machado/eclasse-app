@@ -29,13 +29,12 @@ const Login = () => {
         if (result.status === 200) {
           toast.success('Logado com sucesso!');
           setTimeout(() => {
-            dispatch(signInAction(result.data.token, true, { email: user.email }));
+            dispatch(signInAction(result.data.token, true, { email: user.email, id: result.data.id }));
           }, 2000);
         }
       })
       .catch((err) => {
         console.log(err);
-        toast.error('Verifique senha ou login!');
       });
   }
 

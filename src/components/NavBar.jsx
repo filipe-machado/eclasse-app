@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 
+import menu from '../assets/images/menu.svg';
+
 const signOutAction = (token, isLogged, user) => ({
   type: 'auth/LOGOUT', token, isLogged, user,
 });
@@ -28,7 +30,7 @@ const NavBar = ({ classnames }) => {
         <ToastContainer autoClose={1800} />
         <div className="uk-navbar-left">
           <Link className="uk-navbar-toggle" href="#!" data-uk-toggle="target: #offcanvas-push">
-            <span data-uk-navbar-toggle-icon="true" />
+            <img src={menu} alt="menu" />
           </Link>
         </div>
 

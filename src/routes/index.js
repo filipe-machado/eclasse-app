@@ -9,6 +9,7 @@ import {
 import Login from '../pages/login';
 import Register from '../pages/register';
 import Home from '../pages';
+import Instituicao from '../pages/instituicoes';
 
 export default function routes() {
   return (
@@ -22,8 +23,12 @@ export default function routes() {
           <Register />
         </Route>
 
-        <Route path="/" exact>
+        <Route path="" exact>
           <Home />
+        </Route>
+
+        <Route path="/instituicoes" exact>
+          <Instituicao />
         </Route>
       </Switch>
     </BrowserRouter>

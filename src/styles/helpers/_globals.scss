@@ -2,6 +2,12 @@
   * {
     font-family: 'roboto thin';
   }
+
+  .uk-container {
+    margin: auto 8px;
+    padding: 0;
+  }
+
   .container {
     display: flex;
     max-width: 95vw;
@@ -19,11 +25,11 @@
     margin: 0 auto;
   }
 
-  .uk-card-default {
-    background: transparentize(#fff, .8);
+  .home .uk-card-default {
+    background: transparentize($sky, .99);
 
     .uk-card-title, p {
-      color: #fff;
+      color: $home-font-color;
     }
   }
 }
