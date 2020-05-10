@@ -14,8 +14,6 @@ const NavBar = ({ classnames }) => {
   const dispatch = useDispatch();
   const data = useSelector((store) => store);
 
-  console.log(data);
-
   function signOut() {
     toast.success('Deslogado com sucesso!');
     dispatch(signOutAction(null, false, {}));
@@ -29,7 +27,7 @@ const NavBar = ({ classnames }) => {
       <nav className={`uk-navbar uk-navbar-container ${classnames}`}>
         <ToastContainer autoClose={1800} />
         <div className="uk-navbar-left">
-          <Link className="uk-navbar-toggle" href="#!" data-uk-toggle="target: #offcanvas-push">
+          <Link className="uk-navbar-toggle" to="#!" data-uk-toggle="target: #offcanvas-push">
             <img src={menu} alt="menu" />
           </Link>
         </div>

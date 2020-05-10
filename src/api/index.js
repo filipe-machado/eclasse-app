@@ -8,10 +8,11 @@ const API = axios.create({
     Accept: 'application/json',
   },
 });
-API.interceptors.response.use(response => {
+
+API.interceptors.response.use((response) => {
   toast.success(response.data.message);
   return response;
-}, error => {
+}, (error) => {
   toast.error(error.response.data.userMessage);
 });
 

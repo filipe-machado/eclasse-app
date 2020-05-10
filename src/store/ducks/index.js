@@ -11,7 +11,7 @@ const initialState = {
 
 export default function login(state = initialState, action) {
   switch (action.type) {
-    case 'auth/LOGIN':
+    case Types.LOGIN:
       return {
         ...state,
         token: action.token,
@@ -20,7 +20,7 @@ export default function login(state = initialState, action) {
           ...state.user, ...action.user,
         },
       };
-    case 'auth/LOGOUT':
+    case Types.LOGOUT:
       return {
         ...state, token: null, isLogged: false, user: {},
       };

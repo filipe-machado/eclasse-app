@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { Input } from '../components/Input';
 import API from '../api';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,10 +15,10 @@ const Login = () => {
   const dispatch = useDispatch();
   const token = useSelector((store) => store);
 
-  function getValue(e) {
+  function getValue({ currentTarget: { name, value } }) {
     setuser({
       ...user,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   }
 
@@ -27,9 +27,10 @@ const Login = () => {
     API.post('login', user)
       .then((result) => {
         if (result.status === 200) {
-          toast.success('Logado com sucesso!');
           setTimeout(() => {
-            dispatch(signInAction(result.data.token, true, { email: user.email, id: result.data.id }));
+            dispatch(signInAction(result.data.token, true, {
+              email: user.email, id: result.data.id,
+            }));
           }, 2000);
         }
       })

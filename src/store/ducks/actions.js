@@ -1,5 +1,9 @@
-/* eslint-disable class-methods-use-this */
 class StateLoader {
+  constructor() {
+    this.state = '';
+    this.form = '';
+  }
+
   loadState() {
     try {
       const serializedState = localStorage.getItem('http://eclasse.io:state');
@@ -15,8 +19,9 @@ class StateLoader {
   }
 
   saveState(state) {
+    this.state = state;
     try {
-      const serializedState = JSON.stringify(state);
+      const serializedState = JSON.stringify(this.state);
       localStorage.setItem('http://eclasse.io:state', serializedState);
     } catch (err) {
       console.log(err);
@@ -24,7 +29,8 @@ class StateLoader {
   }
 
   initializeState(form) {
-    const formData = new FormData(form);
+    this.form = form;
+    const formData = new FormData(this.form);
     return formData;
   }
 }

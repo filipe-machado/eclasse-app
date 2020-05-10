@@ -1,27 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Input = ({
-  modifier, label, type, hadleChange, classes,
+export const Search = ({
+  modifier, label, type, hadleChange, classes, list,
 }) => (
   <div id={modifier} className={`input-group ${classes}`}>
     <label className="uk-form-label" htmlFor={modifier}>{label}</label>
-    <input className="uk-input" name={modifier} type={type} onChange={hadleChange} />
+    <input list={list} className="uk-input" name={modifier} type={type} onChange={hadleChange} />
   </div>
 );
 
-Input.propTypes = {
+Search.propTypes = {
   modifier: PropTypes.string.isRequired,
   label: PropTypes.string,
   type: PropTypes.string,
   hadleChange: PropTypes.func.isRequired,
   classes: PropTypes.string,
+  list: PropTypes.string,
 };
 
-Input.defaultProps = {
+Search.defaultProps = {
   label: '',
   type: 'text',
   classes: '',
+  list: '',
 };
 
-export default Input;
+export default Search;

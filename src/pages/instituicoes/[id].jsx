@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { API } from '../../api';
+import { useSelector } from 'react-redux';
+import API from '../../api';
 
 export default function Instituicao() {
   const [instituicao, setinstituicao] = useState({});
@@ -8,8 +9,9 @@ export default function Instituicao() {
   useEffect(() => {
     function getInstituicoes() {
       const instituicoes = window.location.pathname;
-      API.get(instituicoes, token.token !== null && { headers: { Authorization: `Bearer ${token.token}` } }))
+      API.get(instituicoes, token.token !== null && { headers: { Authorization: `Bearer ${token.token}` } })
         .then((result) => {
+          console.log(result);
           setinstituicao({ ...result.data[0] });
         });
     }
