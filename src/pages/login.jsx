@@ -10,6 +10,10 @@ const signInAction = (token, isLogged, user) => ({
   type: 'auth/LOGIN', token, isLogged, user,
 });
 
+const setMenu = (menu) => ({
+  type: 'MENU', menu,
+});
+
 const Login = () => {
   const [user, setuser] = useState();
   const dispatch = useDispatch();
@@ -27,9 +31,12 @@ const Login = () => {
     API.post('login', user)
       .then((result) => {
         if (result.status === 200) {
+          dispatch(setMenu(result.data.permissoes));
           setTimeout(() => {
             dispatch(signInAction(result.data.token, true, {
-              email: user.email, id: result.data.id,
+              email: user.email,
+              id: result.data.id,
+              usuario: result.data.usuario,
             }));
           }, 2000);
         }
@@ -38,6 +45,13 @@ const Login = () => {
         console.log(err);
       });
   }
+
+  /* function salvar() {
+  let texto = document.getElementById("texto").value;
+  let titulo = document.getElementById("titulo").value;
+  let blob = new Blob([texto], { type: "text/plain;charset=utf-8" });
+  saveAs(blob, titulo + ".txt");
+} */
 
   return (
     <>

@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import menu from '../assets/images/menu.svg';
 
-const signOutAction = (token, isLogged, user) => ({
-  type: 'auth/LOGOUT', token, isLogged, user,
+const signOutAction = () => ({
+  type: 'auth/LOGOUT',
 });
 
 const NavBar = ({ classnames }) => {
@@ -16,10 +16,7 @@ const NavBar = ({ classnames }) => {
 
   function signOut() {
     toast.success('Deslogado com sucesso!');
-    dispatch(signOutAction(null, false, {}));
-    setTimeout(() => {
-      window.location.href = '/';
-    }, 2000);
+    dispatch(signOutAction());
   }
 
   return (
@@ -37,17 +34,19 @@ const NavBar = ({ classnames }) => {
             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
             <button className="uk-offcanvas-close" type="button" data-uk-close />
             <ul className="uk-navbar-nav">
-              <li><Link to="/alunos">Aluno</Link></li>
-              <li><Link to="/professores">Professor</Link></li>
-              <li>
-                <a href="#!">Usuário</a>
-                <div data-uk-dropdown>
-                  <ul className="uk-nav uk-navbar-dropdown-nav">
-                    {!data.isLogged && <li><Link to="/login">Entrar</Link></li>}
-                    {data.isLogged && <li><Link to="/" onClick={signOut}>Sair</Link></li>}
-                  </ul>
-                </div>
-              </li>
+              {
+                // eslint-disable-next-line react/no-array-index-key
+                data.menu !== undefined && data.menu.map((result, index) => <li key={1 + index}><Link to={`/${result.normalize('NFD').replace(/[^a-zA-Zs]/g, '')}`}>{result.trim()}</Link></li>)
+              }
+              {!data.isLogged
+              && (
+                <li><Link to="/login">Entrar</Link></li>
+              )}
+
+              {data.isLogged
+              && (
+                <li><Link to="/" onClick={signOut}>Sair</Link></li>
+              )}
             </ul>
           </div>
         </div>

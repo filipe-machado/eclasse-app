@@ -18,11 +18,10 @@ export default function Instituicao() {
       <ul>
         {instituicao !== null && instituicao.map((result) => (
           <>
-            <li key={`1221${result.id}`}>{result.nome}</li>
-            <li key={`1222${result.id}`}>{result.endereco}</li>
-            <li key={`1223${result.id}`}>{result.cidade}</li>
-            <li key={`1224${result.id}`}>{result.uf}</li>
-            <br key={`1225${result.id}`} />
+            <li key={result.id.toString()}>{result.nome}</li>
+            <li key={result.id.toString()}>{result.endereco}</li>
+            <li key={result.id.toString()}>{result.cidade}</li>
+            <li key={result.id.toString()}>{result.uf}</li>
           </>
         ))}
       </ul>

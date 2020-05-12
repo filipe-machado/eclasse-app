@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import API from '../api';
 import Layout from '../components/Layout';
 
 export default function Home() {
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState();
-  const [user, setUser] = useState({});
   const storage = useSelector((store) => store);
 
-  useEffect(() => {
+  /* const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState();
+  const [user, setUser] = useState({}); */
+
+  /* useEffect(() => {
     setLoading(true);
     if (storage.isLogged) {
-      API.get(`usuarios/${storage.user.id}`, storage.token !== null && { headers: { Authorization: `Bearer ${storage.token}` } })
+      API.get(`usuarios/${storage.user.id}`, storage.token !== null && {
+          headers: { Authorization: `Bearer ${storage.token}` },
+        })
         .then((result) => {
           setUser(result);
         })
@@ -23,7 +25,7 @@ export default function Home() {
           setLoading(isLoading, false);
         });
     }
-  }, []);
+  }, []); */
 
   return (
     <>
@@ -78,21 +80,20 @@ export default function Home() {
         }
 
         {
-          user.data !== undefined && user.data.map((result) => (
-            <>
-              <div className="uk-container uk-container-xsmall">
-                <div className="presentation uk-grid-match uk-child-width-1-3@m" data-uk-grid>
-                  <h1>
-                    {`Olá, ${result.usuario}`}
-                  </h1>
-                  <p>
-                    Fique próximo do seu filho, sem precisar sair de casa,
-                    monitore o comportamento e tenha conhecimento do desempenho do seu filho.
-                  </p>
-                </div>
+          storage.user.usuario !== undefined && storage.user.usuario !== null
+          && (
+            <div className="uk-container uk-container-xsmall">
+              <div className="presentation uk-grid-match uk-child-width-1-3@m" data-uk-grid>
+                <h1>
+                  {`Olá, ${storage.user.usuario}`}
+                </h1>
+                <p>
+                  Fique próximo do seu filho, sem precisar sair de casa,
+                  monitore o comportamento e tenha conhecimento do desempenho do seu filho.
+                </p>
               </div>
-            </>
-          ))
+            </div>
+          )
         }
       </div>
     </>
