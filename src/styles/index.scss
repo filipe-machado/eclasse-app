@@ -1,8 +1,13 @@
+// Helpers
 @import './helpers/variables';
 @import './helpers/typografy';
 @import './helpers/globals';
+@import './helpers/normalize';
 
+// Components
 @import './components/Form';
 @import './components/NavBar';
+@import './components/Loader';
 
+// Pages
 @import './pages/Home';

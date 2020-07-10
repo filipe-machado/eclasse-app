@@ -14,6 +14,7 @@ const Register = () => {
   const [grupos, setGrupos] = useState([]);
   const [instituicoes, setInstituicoes] = useState([]);
 
+
   useEffect(() => {
     const getGrupos = () => {
       API.get('grupos').then((result) => {
@@ -81,10 +82,17 @@ const Register = () => {
           <Input label="usuario" modifier="usuario" hadleChange={getValue} />
           <Input label="email" modifier="email" hadleChange={getValue} />
           <Search list="instituicoes-list" label="instituição" modifier="instituicao" hadleChange={(e) => viewInstituicoes(e.target.name, e.target.value)} />
-          <Input label="senha" modifier="senha" type="password" hadleChange={getValue} />
           <Select modifier="tipoUsuario" label="grupo" placeholder="Nenhum grupo cadastrado" active="Selecione o tipo de usuário" options={grupos} hadleChange={getValue} />
           <Input classes="hidden" label="cpf do aluno" modifier="aluno" type="text" hadleChange={getValue} />
+          <Input label="senha" modifier="senha" type="password" hadleChange={getValue} />
           <Input label="repita senha" modifier="senha-rpt" type="password" hadleChange={getValue} />
+          <div className="ui search">
+            <div className="ui icon input">
+              <input className="prompt" type="text" placeholder="Search countries..." />
+              <i className="search icon"></i>
+            </div>
+            <div className="results"></div>
+          </div>
           <button className="btn-primary submit" type="submit">
             Registrar
             <i className="icon icon-right">&#xe800;</i>
@@ -98,11 +106,14 @@ const Register = () => {
         </div>
       </div>
       {/* FAZER ALGO QUE SIMULE ISSO */}
-      <datalist id="instituicoes-list">
+      <div className="uk-autocomplete uk-form" data-uk-autocomplete={`{source: ${instituicoes}}`}>
+        <Input type="text" value={instituicoes.nome} />
+      </div>
+      {/* <datalist id="instituicoes-list">
         {
           instituicoes.map((result) => <option value={result.nome} label={`${result.endereco}`} />)
         }
-      </datalist>
+      </datalist> */}
     </>
   );
 };

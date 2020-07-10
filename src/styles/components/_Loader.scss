@@ -1,0 +1,26 @@
+.loader {
+  height: 100vh;
+  width: 100vw;
+  background-color: $color-minus-25;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+
+  img {
+    width: 30vw;
+    animation: rotate 3s steps(12, end) infinite;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}

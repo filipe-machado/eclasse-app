@@ -2,10 +2,12 @@ export const Types = {
   LOGIN: 'auth/LOGIN',
   LOGOUT: 'auth/LOGOUT',
   MENU: 'MENU',
+  LOADING: 'LOADING',
 };
 
 const initialState = {
   isLogged: false,
+  loading: false,
   token: null,
   user: {},
   menu: [],
@@ -22,6 +24,10 @@ export default function login(state = initialState, action) {
           ...state.user, ...action.user,
         },
       };
+    case Types.LOGOUT:
+      return {
+        ...state, isLogged: false, token: null, menu: [], user: {},
+      };
     case Types.MENU:
       return {
         ...state,
@@ -29,9 +35,9 @@ export default function login(state = initialState, action) {
           ...action.menu,
         ],
       };
-    case Types.LOGOUT:
+    case Types.LOADING:
       return {
-        ...state, isLogged: false, token: null, menu: [], user: {},
+        ...state, ...action.loading,
       };
     default:
       return { ...state };

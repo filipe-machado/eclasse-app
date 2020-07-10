@@ -14,10 +14,14 @@ const setMenu = (menu) => ({
   type: 'MENU', menu,
 });
 
+const loader = (loading) => ({
+  type: 'LOADING', loading,
+});
+
 const Login = () => {
   const [user, setuser] = useState();
   const dispatch = useDispatch();
-  const token = useSelector((store) => store);
+  const store = useSelector((state) => state);
 
   function getValue({ currentTarget: { name, value } }) {
     setuser({
@@ -28,6 +32,7 @@ const Login = () => {
 
   function signIn(e) {
     e.preventDefault();
+    dispatch(loader({ loading: true }));
     API.post('login', user)
       .then((result) => {
         if (result.status === 200) {
@@ -43,7 +48,8 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(dispatch(loader({ loading: false })));
   }
 
   /* function salvar() {
@@ -56,7 +62,7 @@ const Login = () => {
   return (
     <>
       <ToastContainer autoClose={1800} />
-      { token.isLogged && <Redirect to="/" />}
+      { store.isLogged && <Redirect to="/" />}
       <div className="container align-content-center form-login">
         <h1 className="usuarios">Login</h1>
         <form onSubmit={signIn} method="post">

@@ -1,12 +1,17 @@
 import React from 'react';
-import 'uikit/dist/css/uikit.min.css';
-import './styles/index.scss';
-import 'uikit';
+import { useSelector } from 'react-redux';
 import Router from './routes';
+import './styles/index.scss';
+import Loader from './components/Loader';
 
 function App() {
+  const loading = useSelector((store) => store.loading);
+
   return (
-    <Router />
+    <>
+      <Loader stateLoader={loading} />
+      <Router />
+    </>
   );
 }
 

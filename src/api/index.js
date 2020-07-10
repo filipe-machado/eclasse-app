@@ -2,7 +2,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const API = axios.create({
-  baseURL: 'http://api.eclasse.io:8080/v1',
+  baseURL: 'http://localhost:80/v1',
   responseType: 'json',
   headers: {
     Accept: 'application/json',

@@ -80,7 +80,7 @@ export default function Home() {
         }
 
         {
-          storage.user.usuario !== undefined && storage.user.usuario !== null
+          storage.user !== undefined && storage.user.usuario !== null
           && (
             <div className="uk-container uk-container-xsmall">
               <div className="presentation uk-grid-match uk-child-width-1-3@m" data-uk-grid>
