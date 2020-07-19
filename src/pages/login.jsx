@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { Input } from '../components/Input';
 import API from '../api';
 import 'react-toastify/dist/ReactToastify.css';
+import loginPlaceholder from '../assets/images/login-placeholder.svg';
 
 const signInAction = (token, isLogged, user) => ({
   type: 'auth/LOGIN', token, isLogged, user,
@@ -64,10 +64,8 @@ const Login = () => {
       <ToastContainer autoClose={1800} />
       { store.isLogged && <Redirect to="/" />}
       <div className="container align-content-center form-login">
-        <h1 className="usuarios">Login</h1>
+        <img src={loginPlaceholder} alt="" />
         <form onSubmit={signIn} method="post">
-          <Input label="email" modifier="email" hadleChange={getValue} />
-          <Input label="senha" modifier="senha" type="password" hadleChange={getValue} />
           <button className="btn-primary submit" type="submit">
             Entrar
             <i className="icon icon-right">&#xe800;</i>

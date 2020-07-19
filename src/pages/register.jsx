@@ -1,120 +1,151 @@
+/* eslint-disable max-len */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import _ from 'lodash';
+
 import { ToastContainer, toast } from 'react-toastify';
-import { Input } from '../components/Input';
+import { Password } from 'primereact/password';
+import { InputText } from 'primereact/inputtext';
+import { AutoComplete } from 'primereact/autocomplete';
+import { isValid } from '../helpers/functions';
+
 import API from '../api';
 import 'react-toastify/dist/ReactToastify.css';
-import { Select } from '../components/Select';
-import { Search } from '../components/Search';
+import InstitutionService from '../services/InstitutionService';
 
 const Register = () => {
-  const [user, setuser] = useState({});
+  const [user, setUser] = useState({});
   const [grupos, setGrupos] = useState([]);
   const [instituicoes, setInstituicoes] = useState([]);
-
-
-  useEffect(() => {
-    const getGrupos = () => {
-      API.get('grupos').then((result) => {
-        setGrupos(result.data);
-      });
-    };
-    getGrupos();
-  }, []);
-
-  function getValue(e) {
-    const { name, value } = e.target;
-    if (name === 'tipoUsuario') {
-      const alunoInput = document.querySelector('#aluno');
-      if (parseFloat(value) === 4) {
-        alunoInput.classList.remove('hidden');
-        alunoInput.setAttribute('required', '');
-      } else {
-        alunoInput.classList.add('hidden');
-        alunoInput.removeAttribute('required');
-      }
-    }
-    setuser({
-      ...user,
-      [name]: value,
-    });
-  }
-
-  function register(e) {
-    e.preventDefault();
-    if (document.querySelector('#senha').value !== document.querySelector('#senha-rpt').value) {
-      toast.error('senhas não conferem');
-      return;
-    }
-    API.post('register', { usuario: user.usuario, email: user.email, senha: user.senha }).then((result) => {
-      if (result.status === 201) {
-        setTimeout(() => {
-          window.location.href = '/login';
-        }, 2000);
-      }
-    }).catch((err) => console.log(err.error));
-  }
+  const [selectedBrand, setSelectedBrand] = useState({ nome: '' });
+  const [filteredBrands, setFilteredBrands] = useState([]);
+  const [pass, setPass] = useState();
 
   // eslint-disable-next-line func-names
-  const getInstituicoes = function (name, value) {
-    if (value.length > 3) {
-      API.get(`instituicoes/${value}`).then((result) => {
-        if (result !== undefined) {
-          setInstituicoes(result.data);
-        }
-      });
+  const getInstituicoes = async function (value = '') {
+    if (isValid(value)) {
+      setInstituicoes(await InstitutionService.getAnInstitutions(value));
+    } else {
+      setInstituicoes(await InstitutionService.getAllInstitutions());
     }
   };
+
+  useEffect(() => {
+    getInstituicoes();
+    API.get('grupos').then((result) => {
+      if (result.status === 200) {
+        setGrupos(result.data);
+      }
+    });
+  }, []);
 
   const viewInstituicoes = _.debounce((name, value) => {
     getInstituicoes(name, value);
   }, 1000);
 
-  return (
-    <>
-      <ToastContainer autoClose={1800} />
-      <div className="container align-content-center form-login">
-        <h1 className="usuarios">Registro</h1>
-        <form onSubmit={register} method="post">
+  const handleUpdate = () => {
+    if (grupos.length === 0) {
+      setTimeout(() => {
+        setGrupos({ grupos });
+      }, 1000);
+    }
+  };
 
-          <Input label="usuario" modifier="usuario" hadleChange={getValue} />
-          <Input label="email" modifier="email" hadleChange={getValue} />
-          <Search list="instituicoes-list" label="instituição" modifier="instituicao" hadleChange={(e) => viewInstituicoes(e.target.name, e.target.value)} />
-          <Select modifier="tipoUsuario" label="grupo" placeholder="Nenhum grupo cadastrado" active="Selecione o tipo de usuário" options={grupos} hadleChange={getValue} />
-          <Input classes="hidden" label="cpf do aluno" modifier="aluno" type="text" hadleChange={getValue} />
-          <Input label="senha" modifier="senha" type="password" hadleChange={getValue} />
-          <Input label="repita senha" modifier="senha-rpt" type="password" hadleChange={getValue} />
-          <div className="ui search">
-            <div className="ui icon input">
-              <input className="prompt" type="text" placeholder="Search countries..." />
-              <i className="search icon"></i>
-            </div>
-            <div className="results"></div>
+  const handleUser = ({ currentTarget: { name, value } }) => {
+    setUser({
+      ...user,
+      [name]: value,
+    });
+  };
+
+  const filterBrands = (event) => {
+    setTimeout(() => {
+      let results = [];
+      if (event.query.length === 0) {
+        results = instituicoes;
+      } else {
+        instituicoes.filter((brand) => brand.nome.toLowerCase().startsWith(event.query.toLowerCase()) && results.push(brand));
+      }
+      setFilteredBrands(results);
+    }, 250);
+  };
+
+  const itemTemplate = (brand) => (
+    <div className="p-clearfix">
+      <p style={{ fontSize: '16px', margin: '1px 0 1px 0' }}>
+        {brand.nome}
+      </p>
+      <p style={{ fontSize: '10px', margin: '1px 0 0 0' }}>
+        {brand.endereco}
+      </p>
+      <p style={{ fontSize: '10px', margin: '1px 0 5px 0' }}>
+        {brand.cidade}
+        {' - '}
+        {brand.uf}
+      </p>
+    </div>
+  );
+
+  return (
+    <div className="p-grid">
+      <ToastContainer autoClose={1800} />
+      <div className="p-col">
+        <form className="p-fluid">
+          <div>
+            <label htmlFor="institution">instituição</label>
+            <AutoComplete
+              value={selectedBrand.nome != null ? selectedBrand.nome : selectedBrand}
+              suggestions={filteredBrands}
+              completeMethod={filterBrands}
+              size={30}
+              minLength={1}
+              placeholder="selecione a instituição"
+              dropdown
+              itemTemplate={itemTemplate}
+              onChange={(e) => setSelectedBrand(e.target.value)}
+            />
           </div>
-          <button className="btn-primary submit" type="submit">
-            Registrar
-            <i className="icon icon-right">&#xe800;</i>
-          </button>
+          <div>
+            <label htmlFor="username">usuário</label>
+            <InputText
+              name="username"
+              id="username"
+              type="text"
+              value={isValid(user.username) ? user.username : ''}
+              onChange={handleUser}
+              autoComplete="username"
+            />
+          </div>
+          <div>
+            <label htmlFor="password">senha</label>
+            <Password
+              name="password"
+              id="password"
+              promptLabel="digite uma senha"
+              value={isValid(user.password) ? user.password : ''}
+              onChange={handleUser}
+              weakLabel="fraca"
+              mediumLabel="média"
+              strongLabel="difícil"
+              autoComplete="new-password"
+            />
+          </div>
+          <div>
+            <label htmlFor="password">confirme a senha</label>
+            <Password
+              name="rpassword"
+              id="rpassword"
+              promptLabel="repita a senha"
+              value={isValid(pass) ? pass : ''}
+              onChange={(e) => setPass(e.target.value)}
+              autoComplete="new-password"
+              feedback={false}
+            />
+          </div>
         </form>
-        <p className="account-details">Já tem uma conta?</p>
-        <div className="btn-unform">
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <i className="icon icon-left-open">&#xe802;</i>
-          <Link to="/login">ENTRAR</Link>
-        </div>
       </div>
-      {/* FAZER ALGO QUE SIMULE ISSO */}
-      <div className="uk-autocomplete uk-form" data-uk-autocomplete={`{source: ${instituicoes}}`}>
-        <Input type="text" value={instituicoes.nome} />
-      </div>
-      {/* <datalist id="instituicoes-list">
-        {
-          instituicoes.map((result) => <option value={result.nome} label={`${result.endereco}`} />)
-        }
-      </datalist> */}
-    </>
+    </div>
   );
 };
 

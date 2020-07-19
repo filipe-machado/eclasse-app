@@ -1,36 +1,7 @@
 @media screen and (min-width: 320px) {
-  * {
-    font-family: 'roboto thin';
-  }
-
-  .uk-container {
-    margin: auto 8px;
-    padding: 0;
-  }
-
-  .container {
-    display: flex;
-    max-width: 95vw;
-    flex-direction: column;
-  }
-
-  .align-content-center {
-    align-content: center;
-    inline-size: min-content;
-    margin: 0 auto;
-  }
-
-  .align-items-center {
-    align-items: center;
-    margin: 0 auto;
-  }
-
-  .home .uk-card-default {
-    background: transparentize($sky, .99);
-
-    .uk-card-title, p {
-      color: $home-font-color;
-    }
+  body {
+    font-family: 'roboto regular';
+    background-color: $bg-primary;
   }
 }
 
