@@ -1,29 +1,56 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import _ from 'lodash';
+// import _ from 'lodash';
 
-import { ToastContainer, toast } from 'react-toastify';
+// COMPONENTS
 import { Password } from 'primereact/password';
 import { InputText } from 'primereact/inputtext';
 import { AutoComplete } from 'primereact/autocomplete';
+import { SplitButton } from 'primereact/splitbutton';
+import { Growl } from 'primereact/growl';
+
+// FUNCTIONS
 import { isValid } from '../helpers/functions';
 
-import API from '../api';
-import 'react-toastify/dist/ReactToastify.css';
+// SERVICES
 import InstitutionService from '../services/InstitutionService';
+import GroupService from '../services/GroupService';
 
 const Register = () => {
-  const [user, setUser] = useState({});
+  const growl = useRef(null);
+  const [user, setUser] = useState({
+    usuario: '',
+    email: '',
+    senha: '',
+    grupo_id: '',
+  });
   const [grupos, setGrupos] = useState([]);
   const [instituicoes, setInstituicoes] = useState([]);
-  const [selectedBrand, setSelectedBrand] = useState({ nome: '' });
-  const [filteredBrands, setFilteredBrands] = useState([]);
+  const [selectedInstitution, setSelectedInstitution] = useState({ nome: '' });
+  const [filteredInstitutions, setFilteredInstitutions] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState({ nome: '' });
+  const [filteredGroups, setFilteredGroups] = useState([]);
   const [pass, setPass] = useState();
+  const [disabled, setDisabled] = useState(true);
 
-  // eslint-disable-next-line func-names
-  const getInstituicoes = async function (value = '') {
+  const items = [
+    {
+      label: 'limpar',
+      icon: 'pi pi-refresh',
+      command: () => {
+        growl.current.show({
+          severity: 'success',
+          summary: 'Updated',
+          detail: 'Data Updated',
+        });
+      },
+    },
+  ];
+
+  const getInstituicoes = async (value = '') => {
     if (isValid(value)) {
       setInstituicoes(await InstitutionService.getAnInstitutions(value));
     } else {
@@ -31,17 +58,21 @@ const Register = () => {
     }
   };
 
+  const getGrupos = async (value = '') => {
+    if (isValid(value)) {
+      setGrupos(await GroupService.getAllGroups(value));
+    } else {
+      setGrupos(await GroupService.getAllGroups());
+    }
+  };
+
   useEffect(() => {
     getInstituicoes();
-    API.get('grupos').then((result) => {
-      if (result.status === 200) {
-        setGrupos(result.data);
-      }
-    });
+    getGrupos();
   }, []);
 
-  const viewInstituicoes = _.debounce((name, value) => {
-    getInstituicoes(name, value);
+  /* const viewGrupos = _.debounce((name, value) => {
+    getGrupos(value);
   }, 1000);
 
   const handleUpdate = () => {
@@ -50,7 +81,7 @@ const Register = () => {
         setGrupos({ grupos });
       }, 1000);
     }
-  };
+  }; */
 
   const handleUser = ({ currentTarget: { name, value } }) => {
     setUser({
@@ -59,7 +90,7 @@ const Register = () => {
     });
   };
 
-  const filterBrands = (event) => {
+  const filterInstitutions = (event) => {
     setTimeout(() => {
       let results = [];
       if (event.query.length === 0) {
@@ -67,11 +98,23 @@ const Register = () => {
       } else {
         instituicoes.filter((brand) => brand.nome.toLowerCase().startsWith(event.query.toLowerCase()) && results.push(brand));
       }
-      setFilteredBrands(results);
+      setFilteredInstitutions(results);
     }, 250);
   };
 
-  const itemTemplate = (brand) => (
+  const filterGroups = (event) => {
+    setTimeout(() => {
+      let results = [];
+      if (event.query.length === 0) {
+        results = grupos;
+      } else {
+        grupos.filter((brand) => brand.nome.toLowerCase().startsWith(event.query.toLowerCase()) && results.push(brand));
+      }
+      setFilteredGroups(results);
+    }, 250);
+  };
+
+  const optionInstitutionTemplate = (brand) => (
     <div className="p-clearfix">
       <p style={{ fontSize: '16px', margin: '1px 0 1px 0' }}>
         {brand.nome}
@@ -87,62 +130,146 @@ const Register = () => {
     </div>
   );
 
+  const optionGroupTemplate = (brand) => (
+    <div className="p-clearfix">
+      <p style={{ fontSize: '16px', margin: '1px 0 1px 0' }}>
+        {brand.nome}
+      </p>
+    </div>
+  );
+
+  const passConfirm = ({ currentTarget: { name, value } }) => {
+    name === 'senha' ? setUser({ ...user, senha: value }) : setPass(value);
+  };
+
+  const comparePass = () => {
+    user.senha === pass ? setDisabled(false) : setDisabled(true);
+  };
+
+  const save = () => {
+    growl.current.show({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Data Saved',
+    });
+  };
+
   return (
     <div className="p-grid">
-      <ToastContainer autoClose={1800} />
+      <Growl ref={growl} />
+      <div className="img-avatar-box">
+        <img src={`https://unavatar.now.sh/${user != null && isValid(user.email) ? user.email : 'anonimous'}`} alt="avatar" />
+      </div>
       <div className="p-col">
-        <form className="p-fluid">
-          <div>
+        <form className="input-box p-fluid">
+          <div className="input-box">
             <label htmlFor="institution">instituição</label>
             <AutoComplete
-              value={selectedBrand.nome != null ? selectedBrand.nome : selectedBrand}
-              suggestions={filteredBrands}
-              completeMethod={filterBrands}
+              value={selectedInstitution.nome != null ? selectedInstitution.nome : selectedInstitution}
+              suggestions={filteredInstitutions}
+              completeMethod={filterInstitutions}
               size={30}
               minLength={1}
               placeholder="selecione a instituição"
               dropdown
-              itemTemplate={itemTemplate}
-              onChange={(e) => setSelectedBrand(e.target.value)}
+              itemTemplate={optionInstitutionTemplate}
+              onChange={(e) => setSelectedInstitution(e.target.value)}
             />
           </div>
-          <div>
-            <label htmlFor="username">usuário</label>
-            <InputText
-              name="username"
-              id="username"
-              type="text"
-              value={isValid(user.username) ? user.username : ''}
-              onChange={handleUser}
-              autoComplete="username"
+          <div className="input-box">
+            <label htmlFor="group">tipo de usuário</label>
+            <AutoComplete
+              value={selectedGroup.nome != null ? selectedGroup.nome : selectedGroup}
+              suggestions={filteredGroups}
+              completeMethod={filterGroups}
+              size={30}
+              minLength={1}
+              placeholder="selecione o tipo de usuário"
+              dropdown
+              itemTemplate={optionGroupTemplate}
+              onChange={(e) => setSelectedGroup(e.target.value)}
             />
           </div>
-          <div>
-            <label htmlFor="password">senha</label>
-            <Password
-              name="password"
-              id="password"
-              promptLabel="digite uma senha"
-              value={isValid(user.password) ? user.password : ''}
-              onChange={handleUser}
-              weakLabel="fraca"
-              mediumLabel="média"
-              strongLabel="difícil"
-              autoComplete="new-password"
-            />
+          <div className="input-box">
+            <label htmlFor="usuario">usuário</label>
+            <div className="p-inputgroup">
+              <span className="p-inputgroup-addon">
+                <i className="pi pi-user" />
+              </span>
+              <InputText
+                name="usuario"
+                id="usuario"
+                type="text"
+                value={isValid(user) ? user.usuario : ''}
+                onChange={handleUser}
+                autoComplete="usuario"
+              />
+            </div>
           </div>
-          <div>
-            <label htmlFor="password">confirme a senha</label>
-            <Password
-              name="rpassword"
-              id="rpassword"
-              promptLabel="repita a senha"
-              value={isValid(pass) ? pass : ''}
-              onChange={(e) => setPass(e.target.value)}
-              autoComplete="new-password"
-              feedback={false}
-            />
+          <div className="input-box">
+            <label htmlFor="email">email</label>
+            <div className="p-inputgroup">
+              <span className="p-inputgroup-addon">
+                <i className="pi pi-envelope" />
+              </span>
+              <InputText
+                name="email"
+                id="email"
+                type="email"
+                value={isValid(user) ? user.email : ''}
+                onChange={handleUser}
+                autoComplete="email"
+                required
+              />
+            </div>
           </div>
+          <div className="input-box">
+            <label htmlFor="senha">senha</label>
+            <div className="p-inputgroup">
+              <span className="p-inputgroup-addon">
+                <i className="pi pi-lock" />
+              </span>
+              <Password
+                name="senha"
+                id="senha"
+                promptLabel="digite uma senha"
+                value={isValid(user) ? user.senha : ''}
+                onChange={passConfirm}
+                weakLabel="fraca"
+                mediumLabel="média"
+                strongLabel="forte"
+                autoComplete="new-senha"
+                required
+                onKeyUp={comparePass}
+              />
+            </div>
+          </div>
+          <div className="input-box">
+            <label htmlFor="rsenha">confirme a senha</label>
+            <div className="p-inputgroup">
+              <span className="p-inputgroup-addon">
+                <i className="pi pi-lock" />
+              </span>
+              <Password
+                name="rsenha"
+                id="rsenha"
+                promptLabel="repita a senha"
+                value={isValid(pass) ? pass : ''}
+                onChange={passConfirm}
+                autoComplete="new-senha"
+                feedback={false}
+                required
+                onKeyUp={comparePass}
+              />
+            </div>
+          </div>
+          <SplitButton
+            label="Registrar"
+            icon="pi pi-save"
+            disabled={disabled}
+            onClick={save}
+            model={items}
+          />
         </form>
       </div>
     </div>

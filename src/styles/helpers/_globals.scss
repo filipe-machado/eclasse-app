@@ -3,6 +3,17 @@
     font-family: 'roboto regular';
     background-color: $bg-primary;
   }
+
+  .p {
+    &-col {
+      padding: 0;
+    }
+    &-grid {
+      margin-top: 0;
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
 }
 
 .hidden {
